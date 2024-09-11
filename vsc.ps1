@@ -3,7 +3,10 @@
 $metadataFilePath = ".\bin\wallpaper.txt"
 
 # Path to dir which contains `light` and `dark` wallpaper folders
-$wallpaperFolder = ".\images\desktop\"
+$wallpaperFolder = ".\images\vsc\"
+
+$targetFilePath = ".\images\vsc\"
+$targetFileName = "vsc_background.jpg"
 
 # Supported themes
 enum Theme {
@@ -53,36 +56,18 @@ if (Test-Path -Path $wallpaperFolder) {
     if ($images.Count -gt 0) {
         $randomImage = Get-Random -InputObject $images
         $imagePath = $randomImage.FullName
-        
-        
+
+        # Deleting previous file
+        Remove-Item -Path "$targetFilePath\$targetFileName" -Force
+
         # NOTE: The script runs right after the system boots in, 
         # So our script should wait a while to get the system up and running
         # 
         # TIP: Adjust it according to your system boot velocity
-        Start-Sleep 8
-        
-        # Win32 API to set wallpaper
-        
-        Add-Type @"
-        using System;
-        using System.Runtime.InteropServices;
-        using Microsoft.Win32;
-        public class Wallpaper {
-            [DllImport("user32.dll", CharSet = CharSet.Auto)]
-            public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-            
-            public static void SetWallpaper(string path) {
-                SystemParametersInfo(20, 0, path, 0x01 | 0x02);
-                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-                key.SetValue("WallpaperStyle", "2");
-                key.SetValue("TileWallpaper", "0");
-                key.Close();
-                }
-                }
-"@
+        Start-Sleep 5
 
-        # Update the wallpaper in the registry for the current user
-        [Wallpaper]::SetWallpaper($imagePath)
+        # Copy a new image into target dir and update its name
+        Copy-Item -Path $imagePath -Destination "$targetFilePath\$targetFileName" -Force
 
         Write-Output "SUCCESS: Image updated successfully; img: [$imagePath]; date: [$currentDateTime];"
     }
