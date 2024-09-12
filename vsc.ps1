@@ -1,6 +1,6 @@
 # Path for metadata containg info about last run
 # Metadata format ->  date-hour-theme, e.g. 14-20-dark
-$metadataFilePath = ".\bin\wallpaper.txt"
+$metadataFilePath = ".\bin\vsc.txt"
 
 # Path to dir which contains `light` and `dark` wallpaper folders
 $wallpaperFolder = ".\images\vsc\"
@@ -64,7 +64,7 @@ if (Test-Path -Path $wallpaperFolder) {
         # So our script should wait a while to get the system up and running
         # 
         # TIP: Adjust it according to your system boot velocity
-        Start-Sleep 5
+        Start-Sleep 8
 
         # Copy a new image into target dir and update its name
         Copy-Item -Path $imagePath -Destination "$targetFilePath\$targetFileName" -Force
