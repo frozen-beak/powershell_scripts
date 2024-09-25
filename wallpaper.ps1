@@ -1,9 +1,9 @@
 # Path for metadata containg info about last run
 # Metadata format ->  date-hour-theme, e.g. 14-20-dark
-$metadataFilePath = ".\bin\wallpaper.txt"
+$metadataFilePath = "C:\dev\ps_scripts\bin\wallpaper.txt"
 
 # Path to dir which contains `light` and `dark` wallpaper folders
-$wallpaperFolder = ".\images\desktop\"
+$wallpaperFolder = "C:\dev\ps_scripts\images\desktop\"
 
 # Supported themes
 enum Theme {
@@ -27,9 +27,8 @@ $currentDate = $currentDateTime.Day
 $currentTheme = [Theme]::Light
 
 # Decide [currentTheme] with respect to current hour
-# if current time is after 9 AM and before 6 PM then light
-# otherwise dark
-if ($currentHour -ge 9 -and $currentHour -lt 18) {
+# if current time is after 9 AM and before 7 PM then light otherwise dark
+if ($currentHour -ge 9 -and $currentHour -lt 19) {
     $currentTheme = [Theme]::Light
 }
 else {

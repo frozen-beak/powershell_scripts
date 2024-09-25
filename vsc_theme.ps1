@@ -1,6 +1,6 @@
 # Path for metadata containg info about last run
 # Metadata format ->  date-hour-theme, e.g. 14-20-dark
-$metadataFilePath = ".\bin\vsc_theme.txt"
+$metadataFilePath = "C:\dev\ps_scripts\bin\vsc_theme.txt"
 
 # Path to the vscode's [settings.json] file
 $settingsFilePath = "C:\Users\admin\AppData\Roaming\Code\User\settings.json"
@@ -28,8 +28,8 @@ $currentTheme = [Theme]::Light
 $currentThemeName = ""
 
 # Decide [currentTheme] and [currentThemeName] with respect to current hour
-# E.g. If current time is after 9 AM and before 6 PM then light otherwise dark
-if ($currentHour -ge 9 -and $currentHour -lt 18) {
+# if current time is after 9 AM and before 7 PM then light otherwise dark
+if ($currentHour -ge 9 -and $currentHour -lt 19) {
     $currentTheme = [Theme]::Light
     $currentThemeName = "Tiny Light"
 }
@@ -52,7 +52,7 @@ if (Test-Path -Path $settingsFilePath) {
     # So our script should wait a while to get the system up and running
     # 
     # TIP: Adjust it according to your system boot velocity
-    Start-Sleep 8
+    Start-Sleep 4
 
     try {
         # read [settings.json] file

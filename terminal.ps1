@@ -1,11 +1,11 @@
 # Path for metadata containg info about last run
 # Metadata format ->  date-hour-theme, e.g. 14-20-dark
-$metadataFilePath = ".\bin\terminal.txt"
+$metadataFilePath = "C:\dev\ps_scripts\bin\terminal.txt"
 
 # Path to dir which contains `light` and `dark` wallpaper folders
-$wallpaperFolder = ".\images\vsc\"
+$wallpaperFolder = "C:\dev\ps_scripts\images\vsc\"
 
-$targetFilePath = ".\images\vsc\"
+$targetFilePath = "C:\dev\ps_scripts\images\vsc\"
 $targetFileName = "terminal_background.jpg"
 
 # Supported themes
@@ -30,9 +30,8 @@ $currentDate = $currentDateTime.Day
 $currentTheme = [Theme]::Light
 
 # Decide [currentTheme] with respect to current hour
-# if current time is after 9 AM and before 6 PM then light
-# otherwise dark
-if ($currentHour -ge 9 -and $currentHour -lt 18) {
+# if current time is after 9 AM and before 7 PM then light otherwise dark
+if ($currentHour -ge 9 -and $currentHour -lt 19) {
     $currentTheme = [Theme]::Light
 }
 else {
@@ -64,7 +63,7 @@ if (Test-Path -Path $wallpaperFolder) {
         # So our script should wait a while to get the system up and running
         # 
         # TIP: Adjust it according to your system boot velocity
-        Start-Sleep 8
+        Start-Sleep 4
 
         # Copy a new image into target dir and update its name
         Copy-Item -Path $imagePath -Destination "$targetFilePath\$targetFileName" -Force
