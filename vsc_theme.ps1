@@ -31,7 +31,7 @@ $currentThemeName = ""
 # E.g. If current time is after 9 AM and before 6 PM then light otherwise dark
 if ($currentHour -ge 9 -and $currentHour -lt 18) {
     $currentTheme = [Theme]::Light
-    $currentThemeName = "Night Owl Light (No Italics)"
+    $currentThemeName = "Tiny Light"
 }
 else {
     $currentTheme = [Theme]::Dark
