@@ -27,8 +27,8 @@ $currentDate = $currentDateTime.Day
 $currentTheme = [Theme]::Light
 
 # Decide [currentTheme] with respect to current hour
-# if current time is after 9 AM and before 7 PM then light otherwise dark
-if ($currentHour -ge 9 -and $currentHour -lt 19) {
+# if current time is after 7 AM and before 6 PM then light otherwise dark
+if ($currentHour -ge 7 -and $currentHour -lt 18) {
     $currentTheme = [Theme]::Light
 }
 else {
