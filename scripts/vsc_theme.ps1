@@ -1,9 +1,9 @@
 # Path for metadata containg info about last run
 # Metadata format ->  date-hour-theme, e.g. 14-20-dark
-$metadataFilePath = "C:\dev\ps_scripts\bin\vsc_theme.txt"
+$metadataFilePath = "C:\dev\powershell_scripts\bin\vsc_theme.txt"
 
 # Path to the vscode's [settings.json] file
-$settingsFilePath = "C:\Users\admin\AppData\Roaming\Code\User\settings.json"
+$settingsFilePath = "C:\Users\froze\AppData\Roaming\Code\User\settings.json"
 
 # Supported themes
 enum Theme {
@@ -47,13 +47,6 @@ if (($dateFromFile -eq $currentDate) -and ([string]($currentTheme) -eq $imgTypeF
 
 # Check if settings PATH is valid
 if (Test-Path -Path $settingsFilePath) {
-
-    # NOTE: The script runs right after the system boots in, 
-    # So our script should wait a while to get the system up and running
-    # 
-    # TIP: Adjust it according to your system boot velocity
-    Start-Sleep 4
-
     try {
         # read [settings.json] file
         $jsonContent = Get-Content -Path $settingsFilePath -Raw | ConvertFrom-Json

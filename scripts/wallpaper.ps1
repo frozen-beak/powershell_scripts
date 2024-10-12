@@ -1,9 +1,9 @@
 # Path for metadata containg info about last run
 # Metadata format ->  date-hour-theme, e.g. 14-20-dark
-$metadataFilePath = "C:\dev\ps_scripts\bin\wallpaper.txt"
+$metadataFilePath = "C:\dev\powershell_scripts\bin\desktop.txt"
 
 # Path to dir which contains `light` and `dark` wallpaper folders
-$wallpaperFolder = "C:\dev\ps_scripts\images\desktop\"
+$wallpaperFolder = "C:\dev\powershell_scripts\images\cars\"
 
 # Supported themes
 enum Theme {
@@ -53,15 +53,7 @@ if (Test-Path -Path $wallpaperFolder) {
         $randomImage = Get-Random -InputObject $images
         $imagePath = $randomImage.FullName
         
-        
-        # NOTE: The script runs right after the system boots in, 
-        # So our script should wait a while to get the system up and running
-        # 
-        # TIP: Adjust it according to your system boot velocity
-        Start-Sleep 8
-        
         # Win32 API to set wallpaper
-        
         Add-Type @"
         using System;
         using System.Runtime.InteropServices;
