@@ -8,6 +8,12 @@ $wallpaperFolder = "C:\dev\powershell_scripts\images\ghibli\"
 $targetFilePath = "C:\dev\powershell_scripts\images\"
 $targetFileName = "vsc_background.jpg"
 
+# Supported themes
+enum Theme {
+    Dark 
+    Light
+}
+
 # Read and split metadata file
 $fileContent = Get-Content -Path $metadataFilePath -Raw
 $metaData = $fileContent -split '-'
@@ -15,14 +21,25 @@ $metaData = $fileContent -split '-'
 # Extracting individual components from metadata
 $dateFromFile = [int]($metaData[0].Trim())
 $hourFromFile = [int]($metaData[1].Trim())
+$imgTypeFromFile = [string]($metaData[2].Trim())
 
 # Fetching system's dateTime info
 $currentDateTime = Get-Date
 $currentHour = $currentDateTime.Hour
 $currentDate = $currentDateTime.Day
+$currentTheme = [Theme]::Light
+
+# Decide [currentTheme] with respect to current hour if current time is after 
+# 7 AM and before 6 PM then light otherwise dark
+if ($currentHour -ge 7 -and $currentHour -lt 18) {
+    $currentTheme = [Theme]::Light
+}
+else {
+    $currentTheme = [Theme]::Dark
+}
 
 # Check if the wallpaper has already been updated for the day and AM/PM status
-if (($dateFromFile -eq $currentDate) -and ($hourFromFile -le $currentHour)) {
+if (($dateFromFile -eq $currentDate) -and ([string]($currentTheme) -eq $imgTypeFromFile) -and ($hourFromFile -le $currentHour)) {
     return # Close the script here because the wallpaper has already been updated
 }
 
@@ -52,5 +69,5 @@ else {
 }
 
 # Update the metadata
-# Metadata format ->  date-hour-theme, e.g. 14-20
-Set-Content -Path $metadataFilePath -Value "$currentDate-$currentHour"
+# Metadata format ->  date-hour-theme, e.g. 14-20-Dark
+Set-Content -Path $metadataFilePath -Value "$currentDate-$currentHour-$currentTheme"
