@@ -48,8 +48,8 @@ if (Test-Path -Path $wallpaperFolder) {
             public static void SetWallpaper(string path) {
                 SystemParametersInfo(20, 0, path, 0x01 | 0x02);
                 RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-                key.SetValue("WallpaperStyle", "22");
-                key.SetValue("TileWallpaper", "1");
+                key.SetValue("WallpaperStyle", "10");
+                key.SetValue("TileWallpaper", "0");
                 key.Close();
                 }
                 }
