@@ -1,0 +1,100 @@
+format = """
+[░▒▓](#a3aed2)\
+[  ](bg:#a3aed2 fg:#090c0c)\
+[](bg:#1d2230 fg:#a3aed2)\
+$directory\
+[](fg:#1d2230 bg:#394260)\
+$git_branch\
+$git_status\
+[](fg:#394260 bg:#212736)\
+$package\
+$nodejs\
+$bun\
+$rust\
+$golang\
+$python\
+$c\
+$zig\
+$julia\
+$dart\
+[](fg:#212736 bg:#1d2230)\
+$time\
+[ ](fg:#1d2230)\
+\n$character"""
+
+add_newline = false
+
+[character]
+format = "[❯](bold green) "
+
+[time]
+disabled = false
+time_format = " %a %R"
+style = "bg:#1d2230"
+format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
+
+[package]
+symbol = "󰏗 "
+style = "bg:#212736"
+format = '[[ $symbol$version ](fg:#DAA520 bg:#212736)]($style)'
+
+[directory]
+style = "fg:#e3e5e5 bg:#1d2230"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = ""
+home_symbol = "~"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:#394260"
+format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
+
+[git_status]
+style = "bg:#394260"
+format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+
+[git_commit]
+tag_symbol = '  '
+style = "bg:#394260"
+format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+
+[fossil_branch]
+symbol = " "
+style = "bg:#394260"
+format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
+
+[memory_usage]
+symbol = "󰍛 "
+
+[rust]
+symbol = "🦀"
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#B22222 bg:#212736)]($style)'
+
+[nodejs]
+symbol = " "
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[python]
+symbol = "🐍"
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#32CD32 bg:#212736)]($style)'
+
+[bun]
+symbol = "🍔"
+style = "bg:#DAA520"
+format = '[[ $symbol ($version) ](fg:#DAA520 bg:#DAA520)]($style)'
+
+[dart]
+symbol = " "
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
