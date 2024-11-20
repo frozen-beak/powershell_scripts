@@ -1,9 +1,5 @@
-# Path for metadata containg info about last run
-# Metadata format ->  date-hour-theme, e.g. 14-20-dark
-$metadataFilePath = "C:\dev\powershell_scripts\bin\desktop.txt"
-
 # Path to dir which contains `light` and `dark` wallpaper folders
-$wallpaperFolder = "C:\dev\powershell_scripts\images\cars\"
+$wallpaperFolder = "C:\dev\powershell_scripts\images\desktop\"
 
 # Supported themes
 enum Theme {
@@ -11,20 +7,9 @@ enum Theme {
     Light
 }
 
-# Read and split metadata file
-$fileContent = Get-Content -Path $metadataFilePath -Raw
-$metaData = $fileContent -split '-'
-
-# Extracting individual components from metadata
-$dateFromFile = [int]($metaData[0].Trim())
-$hourFromFile = [int]($metaData[1].Trim())
-$imgTypeFromFile = [string]($metaData[2].Trim())
-
 # Fetching system's dateTime info
 $currentDateTime = Get-Date
 $currentHour = $currentDateTime.Hour
-$currentDate = $currentDateTime.Day
-$currentTheme = [Theme]::Light
 
 # Decide [currentTheme] with respect to current hour
 # if current time is after 7 AM and before 6 PM then light otherwise dark
@@ -35,22 +20,20 @@ else {
     $currentTheme = [Theme]::Dark
 }
 
-# Check if the wallpaper has already been updated for the day and AM/PM status
-if (($dateFromFile -eq $currentDate) -and ([string]($currentTheme) -eq $imgTypeFromFile) -and ($hourFromFile -le $currentHour)) {
-    # Close the script here because the wallpaper has already been updated
-    return
-}
-
-# Update wallpaper folder to contain img type path (either [light] or [dark])
+# Update wallpaper folder to contain img type path (either [Light] or [Dark])
 $wallpaperFolder = "$wallpaperFolder\$currentTheme"
 
-# Update the wallpaper if the dir exists
+# Update the wallpaper only if the dir exists
 if (Test-Path -Path $wallpaperFolder) {
     $images = Get-ChildItem -Path $wallpaperFolder -File
     
     # Check if there are images in the dir
     if ($images.Count -gt 0) {
-        $randomImage = Get-Random -InputObject $images
+
+        # pick a random img from the src dir
+        $epochTime = [int][double]::Parse((Get-Date -UFormat %s))
+        $randomImage = Get-Random -InputObject $images -SetSeed $epochTime
+
         $imagePath = $randomImage.FullName
         
         # Win32 API to set wallpaper
@@ -65,8 +48,8 @@ if (Test-Path -Path $wallpaperFolder) {
             public static void SetWallpaper(string path) {
                 SystemParametersInfo(20, 0, path, 0x01 | 0x02);
                 RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-                key.SetValue("WallpaperStyle", "2");
-                key.SetValue("TileWallpaper", "0");
+                key.SetValue("WallpaperStyle", "22");
+                key.SetValue("TileWallpaper", "1");
                 key.Close();
                 }
                 }
@@ -75,16 +58,12 @@ if (Test-Path -Path $wallpaperFolder) {
         # Update the wallpaper in the registry for the current user
         [Wallpaper]::SetWallpaper($imagePath)
 
-        Write-Output "SUCCESS: Image updated successfully; img: [$imagePath]; date: [$currentDateTime];"
+        Write-Output "[SUCCESS] Image updated successfully; img: [$imagePath]; date: [$currentDateTime];"
     }
     else {
-        Write-Output "ERROR: No image found in [$wallpaperFolder] dir"
+        Write-Output "[ERROR] No image found in [$wallpaperFolder] dir"
     }
 }
 else {
-    Write-Output "ERROR: Path to the [$wallpaperFolder] does not exists"
+    Write-Output "[ERROR] Path to the [$wallpaperFolder] does not exists"
 }
-
-# Update the metadata
-# Metadata format ->  date-hour-theme, e.g. 14-20-dark
-Set-Content -Path $metadataFilePath -Value "$currentDate-$currentHour-$currentTheme"
